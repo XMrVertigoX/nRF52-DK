@@ -1,0 +1,3 @@
+[submodule "libs/xXx"]
+	path = libs/xXx
+	url = https://github.com/XMrVertigoX/xXx_CPP.git
