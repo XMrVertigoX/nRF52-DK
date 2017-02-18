@@ -9,7 +9,9 @@
  * the file.
  *
  */
+
 // Board/nrf6310/ble/ble_app_hrs_rtx/main.c
+
 /**
  *
  * @brief Heart Rate Service Sample Application with RTX main file.
@@ -18,6 +20,9 @@
  * Heart Rate service (and also Battery and Device Information services).
  * This application uses the @ref srvlib_conn_params module.
  */
+
+#include <stdint.h>
+#include <string.h>
 
 #include "FreeRTOS.h"
 #include "app_error.h"
@@ -46,119 +51,192 @@
 #include "softdevice_handler.h"
 #include "task.h"
 #include "timers.h"
-#include <stdint.h>
-#include <string.h>
+
 #define NRF_LOG_MODULE_NAME "APP"
+
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 
-#define IS_SRVC_CHANGED_CHARACT_PRESENT                                                            \
-    1 /**< Include the Service Changed characteristic. If not enabled, the server's database cannot be changed for the lifetime of the device. */
+/**< Include the Service Changed characteristic. If not enabled, the server's database cannot be changed for the lifetime of the device. */
+#define IS_SRVC_CHANGED_CHARACT_PRESENT (1)
 
 #if (NRF_SD_BLE_API_VERSION == 3)
-#define NRF_BLE_MAX_MTU_SIZE                                                                       \
-    GATT_MTU_SIZE_DEFAULT /**< MTU size used in the softdevice enabling and to reply to a BLE_GATTS_EVT_EXCHANGE_MTU_REQUEST event. */
+/**< MTU size used in the softdevice enabling and to reply to a BLE_GATTS_EVT_EXCHANGE_MTU_REQUEST event. */
+#define NRF_BLE_MAX_MTU_SIZE (GATT_MTU_SIZE_DEFAULT)
 #endif
 
-#define CENTRAL_LINK_COUNT                                                                         \
-    0 /**< Number of central links used by the application. When changing this number remember to adjust the RAM settings*/
-#define PERIPHERAL_LINK_COUNT                                                                      \
-    1 /**< Number of peripheral links used by the application. When changing this number remember to adjust the RAM settings*/
+/**< Number of central links used by the application. When changing this number remember to adjust the RAM settings*/
+#define CENTRAL_LINK_COUNT (0)
 
-#define DEVICE_NAME "Nordic_HRM" /**< Name of device. Will be included in the advertising data. */
-#define MANUFACTURER_NAME                                                                          \
-    "NordicSemiconductor" /**< Manufacturer. Will be passed to Device Information Service. */
-#define APP_ADV_INTERVAL                                                                           \
-    300 /**< The advertising interval (in units of 0.625 ms. This value corresponds to 187.5 ms). */
-#define APP_ADV_TIMEOUT_IN_SECONDS 180 /**< The advertising time-out in units of seconds. */
+/**< Number of peripheral links used by the application. When changing this number remember to adjust the RAM settings*/
+#define PERIPHERAL_LINK_COUNT (1)
 
-#define APP_TIMER_PRESCALER 0     /**< Value of the RTC1 PRESCALER register. */
-#define APP_TIMER_OP_QUEUE_SIZE 4 /**< Size of timer operation queues. */
+/**< Name of device. Will be included in the advertising data. */
+#define DEVICE_NAME "Nordic_HRM"
 
-#define BATTERY_LEVEL_MEAS_INTERVAL 2000 /**< Battery level measurement interval (ms). */
-#define MIN_BATTERY_LEVEL 81             /**< Minimum simulated battery level. */
-#define MAX_BATTERY_LEVEL 100            /**< Maximum simulated battery level. */
-#define BATTERY_LEVEL_INCREMENT                                                                    \
-    1 /**< Increment between each simulated battery level measurement. */
+/**< Manufacturer. Will be passed to Device Information Service. */
+#define MANUFACTURER_NAME "NordicSemiconductor"
 
-#define HEART_RATE_MEAS_INTERVAL 1000 /**< Heart rate measurement interval (ms). */
-#define MIN_HEART_RATE                                                                             \
-    140 /**< Minimum heart rate as returned by the simulated measurement function. */
-#define MAX_HEART_RATE                                                                             \
-    300 /**< Maximum heart rate as returned by the simulated measurement function. */
-#define HEART_RATE_INCREMENT                                                                       \
-    10 /**< Value by which the heart rate is incremented/decremented for each call to the simulated measurement function. */
+/**< The advertising interval (in units of 0.625 ms. This value corresponds to 187.5 ms). */
+#define APP_ADV_INTERVAL (300)
 
-#define RR_INTERVAL_INTERVAL 300 /**< RR interval interval (ms). */
-#define MIN_RR_INTERVAL                                                                            \
-    100 /**< Minimum RR interval as returned by the simulated measurement function. */
-#define MAX_RR_INTERVAL                                                                            \
-    500 /**< Maximum RR interval as returned by the simulated measurement function. */
-#define RR_INTERVAL_INCREMENT                                                                      \
-    1 /**< Value by which the RR interval is incremented/decremented for each call to the simulated measurement function. */
+/**< The advertising time-out in units of seconds. */
+#define APP_ADV_TIMEOUT_IN_SECONDS (180)
 
-#define SENSOR_CONTACT_DETECTED_INTERVAL 5000 /**< Sensor Contact Detected toggle interval (ms). */
+/**< Value of the RTC1 PRESCALER register. */
+#define APP_TIMER_PRESCALER (0)
 
-#define MIN_CONN_INTERVAL                                                                          \
-    MSEC_TO_UNITS(400, UNIT_1_25_MS) /**< Minimum acceptable connection interval (0.4 seconds). */
-#define MAX_CONN_INTERVAL                                                                          \
-    MSEC_TO_UNITS(650, UNIT_1_25_MS) /**< Maximum acceptable connection interval (0.65 second). */
-#define SLAVE_LATENCY 0              /**< Slave latency. */
-#define CONN_SUP_TIMEOUT                                                                           \
-    MSEC_TO_UNITS(4000, UNIT_10_MS) /**< Connection supervisory time-out (4 seconds). */
+/**< Size of timer operation queues. */
+#define APP_TIMER_OP_QUEUE_SIZE (4)
 
-#define FIRST_CONN_PARAMS_UPDATE_DELAY                                                             \
-    5000 /**< Time from initiating event (connect or start of notification) to first time sd_ble_gap_conn_param_update is called (5 seconds). */
-#define NEXT_CONN_PARAMS_UPDATE_DELAY                                                              \
-    30000 /**< Time between each call to sd_ble_gap_conn_param_update after the first call (30 seconds). */
-#define MAX_CONN_PARAMS_UPDATE_COUNT                                                               \
-    3 /**< Number of attempts before giving up the connection parameter negotiation. */
+/**< Battery level measurement interval (ms). */
+#define BATTERY_LEVEL_MEAS_INTERVAL (2000)
 
-#define SEC_PARAM_BOND 1     /**< Perform bonding. */
-#define SEC_PARAM_MITM 0     /**< Man In The Middle protection not required. */
-#define SEC_PARAM_LESC 0     /**< LE Secure Connections not enabled. */
-#define SEC_PARAM_KEYPRESS 0 /**< Keypress notifications not enabled. */
-#define SEC_PARAM_IO_CAPABILITIES BLE_GAP_IO_CAPS_NONE /**< No I/O capabilities. */
-#define SEC_PARAM_OOB 0                                /**< Out Of Band data not available. */
-#define SEC_PARAM_MIN_KEY_SIZE 7                       /**< Minimum encryption key size. */
-#define SEC_PARAM_MAX_KEY_SIZE 16                      /**< Maximum encryption key size. */
+/**< Minimum simulated battery level. */
+#define MIN_BATTERY_LEVEL (81)
 
-#define DEAD_BEEF                                                                                  \
-    0xDEADBEEF /**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
+/**< Maximum simulated battery level. */
+#define MAX_BATTERY_LEVEL (100)
 
-#define OSTIMER_WAIT_FOR_QUEUE 2 /**< Number of ticks to wait for the timer queue to be ready */
+/**< Increment between each simulated battery level measurement. */
+#define BATTERY_LEVEL_INCREMENT (1)
 
-#define APP_FEATURE_NOT_SUPPORTED                                                                  \
-    BLE_GATT_STATUS_ATTERR_APP_BEGIN + 2 /**< Reply when unsupported features are requested. */
+/**< Heart rate measurement interval (ms). */
+#define HEART_RATE_MEAS_INTERVAL (1000)
 
-static uint16_t m_conn_handle = BLE_CONN_HANDLE_INVALID; /**< Handle of the current connection. */
-static ble_bas_t m_bas; /**< Structure used to identify the battery service. */
-static ble_hrs_t m_hrs; /**< Structure used to identify the heart rate service. */
-static bool m_rr_interval_enabled =
-    true; /**< Flag for enabling and disabling the registration of new RR interval measurements (the purpose of disabling this is just to test sending HRM without RR interval data. */
+/**< Minimum heart rate as returned by the simulated measurement function. */
+#define MIN_HEART_RATE (140)
 
-static sensorsim_cfg_t m_battery_sim_cfg;     /**< Battery Level sensor simulator configuration. */
-static sensorsim_state_t m_battery_sim_state; /**< Battery Level sensor simulator state. */
-static sensorsim_cfg_t m_heart_rate_sim_cfg;  /**< Heart Rate sensor simulator configuration. */
-static sensorsim_state_t m_heart_rate_sim_state; /**< Heart Rate sensor simulator state. */
-static sensorsim_cfg_t m_rr_interval_sim_cfg;    /**< RR Interval sensor simulator configuration. */
-static sensorsim_state_t m_rr_interval_sim_state; /**< RR Interval sensor simulator state. */
+/**< Maximum heart rate as returned by the simulated measurement function. */
+#define MAX_HEART_RATE (300)
 
-static ble_uuid_t m_adv_uuids[] = /**< Universally unique service identifiers. */
-    {{BLE_UUID_HEART_RATE_SERVICE, BLE_UUID_TYPE_BLE},
-     {BLE_UUID_BATTERY_SERVICE, BLE_UUID_TYPE_BLE},
-     {BLE_UUID_DEVICE_INFORMATION_SERVICE, BLE_UUID_TYPE_BLE}};
+/**< Value by which the heart rate is incremented/decremented for each call to the simulated measurement function. */
+#define HEART_RATE_INCREMENT (10)
 
-static TimerHandle_t m_battery_timer;        /**< Definition of battery timer. */
-static TimerHandle_t m_heart_rate_timer;     /**< Definition of heart rate timer. */
-static TimerHandle_t m_rr_interval_timer;    /**< Definition of RR interval timer. */
-static TimerHandle_t m_sensor_contact_timer; /**< Definition of sensor contact detected timer. */
+/**< RR interval interval (ms). */
+#define RR_INTERVAL_INTERVAL (300)
 
-static SemaphoreHandle_t
-    m_ble_event_ready; /**< Semaphore raised if there is a new event to be processed in the BLE thread. */
+/**< Minimum RR interval as returned by the simulated measurement function. */
+#define MIN_RR_INTERVAL (100)
 
-static TaskHandle_t m_ble_stack_thread; /**< Definition of BLE stack thread. */
-static TaskHandle_t m_logger_thread;    /**< Definition of Logger thread. */
+/**< Maximum RR interval as returned by the simulated measurement function. */
+#define MAX_RR_INTERVAL (500)
+
+/**< Value by which the RR interval is incremented/decremented for each call to the simulated measurement function. */
+#define RR_INTERVAL_INCREMENT (1)
+
+/**< Sensor Contact Detected toggle interval (ms). */
+#define SENSOR_CONTACT_DETECTED_INTERVAL (5000)
+
+/**< Minimum acceptable connection interval (0.4 seconds). */
+#define MIN_CONN_INTERVAL MSEC_TO_UNITS(400, UNIT_1_25_MS)
+
+/**< Maximum acceptable connection interval (0.65 second). */
+#define MAX_CONN_INTERVAL MSEC_TO_UNITS(650, UNIT_1_25_MS)
+
+/**< Slave latency. */
+#define SLAVE_LATENCY (0)
+
+/**< Connection supervisory time-out (4 seconds). */
+#define CONN_SUP_TIMEOUT MSEC_TO_UNITS(4000, UNIT_10_MS)
+
+/**< Time from initiating event (connect or start of notification) to first time sd_ble_gap_conn_param_update is called (5 seconds). */
+#define FIRST_CONN_PARAMS_UPDATE_DELAY (5000)
+
+/**< Time between each call to sd_ble_gap_conn_param_update after the first call (30 seconds). */
+#define NEXT_CONN_PARAMS_UPDATE_DELAY (30000)
+
+/**< Number of attempts before giving up the connection parameter negotiation. */
+#define MAX_CONN_PARAMS_UPDATE_COUNT (3)
+
+/**< Perform bonding. */
+#define SEC_PARAM_BOND (1)
+
+/**< Man In The Middle protection not required. */
+#define SEC_PARAM_MITM (0)
+
+/**< LE Secure Connections not enabled. */
+#define SEC_PARAM_LESC (0)
+
+/**< Keypress notifications not enabled. */
+#define SEC_PARAM_KEYPRESS (0)
+
+/**< No I/O capabilities. */
+#define SEC_PARAM_IO_CAPABILITIES (BLE_GAP_IO_CAPS_NONE)
+
+/**< Out Of Band data not available. */
+#define SEC_PARAM_OOB (0)
+
+/**< Minimum encryption key size. */
+#define SEC_PARAM_MIN_KEY_SIZE (7)
+
+/**< Maximum encryption key size. */
+#define SEC_PARAM_MAX_KEY_SIZE (16)
+
+/**< Value used as error code on stack dump, can be used to identify stack location on stack unwind. */
+#define DEAD_BEEF (0xDEADBEEF)
+
+/**< Number of ticks to wait for the timer queue to be ready */
+#define OSTIMER_WAIT_FOR_QUEUE (2)
+
+/**< Reply when unsupported features are requested. */
+#define APP_FEATURE_NOT_SUPPORTED (BLE_GATT_STATUS_ATTERR_APP_BEGIN + 2)
+
+/**< Handle of the current connection. */
+static uint16_t m_conn_handle = BLE_CONN_HANDLE_INVALID;
+
+/**< Structure used to identify the battery service. */
+static ble_bas_t m_bas;
+
+/**< Structure used to identify the heart rate service. */
+static ble_hrs_t m_hrs;
+
+/**< Flag for enabling and disabling the registration of new RR interval measurements (the purpose of disabling this is just to test sending HRM without RR interval data. */
+static bool m_rr_interval_enabled = true;
+
+/**< Battery Level sensor simulator configuration. */
+static sensorsim_cfg_t m_battery_sim_cfg;
+
+/**< Battery Level sensor simulator state. */
+static sensorsim_state_t m_battery_sim_state;
+
+/**< Heart Rate sensor simulator configuration. */
+static sensorsim_cfg_t m_heart_rate_sim_cfg;
+
+/**< Heart Rate sensor simulator state. */
+static sensorsim_state_t m_heart_rate_sim_state;
+
+/**< RR Interval sensor simulator configuration. */
+static sensorsim_cfg_t m_rr_interval_sim_cfg;
+
+/**< RR Interval sensor simulator state. */
+static sensorsim_state_t m_rr_interval_sim_state;
+
+/**< Universally unique service identifiers. */
+static ble_uuid_t m_adv_uuids[] = {{BLE_UUID_HEART_RATE_SERVICE, BLE_UUID_TYPE_BLE},
+                                   {BLE_UUID_BATTERY_SERVICE, BLE_UUID_TYPE_BLE},
+                                   {BLE_UUID_DEVICE_INFORMATION_SERVICE, BLE_UUID_TYPE_BLE}};
+
+/**< Definition of battery timer. */
+static TimerHandle_t m_battery_timer;
+
+/**< Definition of heart rate timer. */
+static TimerHandle_t m_heart_rate_timer;
+
+/**< Definition of RR interval timer. */
+static TimerHandle_t m_rr_interval_timer;
+
+/**< Definition of sensor contact detected timer. */
+static TimerHandle_t m_sensor_contact_timer;
+
+/**< Semaphore raised if there is a new event to be processed in the BLE thread. */
+static SemaphoreHandle_t m_ble_event_ready;
+
+/**< Definition of BLE stack thread. */
+static TaskHandle_t m_ble_stack_thread;
+
+/**< Definition of Logger thread. */
+static TaskHandle_t m_logger_thread;
 
 static void advertising_start(void);
 
@@ -978,13 +1056,11 @@ int main(void) {
     err_code = NRF_LOG_INIT(NULL);
     APP_ERROR_CHECK(err_code);
 
-    // Start execution.
     if (pdPASS != xTaskCreate(ble_stack_thread, "BLE", 256, NULL, 2, &m_ble_stack_thread)) {
         APP_ERROR_HANDLER(NRF_ERROR_NO_MEM);
     }
 
 #if NRF_LOG_ENABLED
-    // Start execution.
     if (pdPASS != xTaskCreate(logger_thread, "LOGGER", 256, NULL, 1, &m_logger_thread)) {
         APP_ERROR_HANDLER(NRF_ERROR_NO_MEM);
     }
@@ -993,7 +1069,6 @@ int main(void) {
     /* Activate deep sleep mode */
     SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
 
-    // Start FreeRTOS scheduler.
     vTaskStartScheduler();
 
     while (true) {
