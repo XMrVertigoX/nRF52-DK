@@ -16,6 +16,7 @@ LINKER_SCRIPT = blinky_FreeRTOS_gcc_nrf52.ld
 SYMBOLS += BOARD_PCA10040
 SYMBOLS += CONFIG_GPIO_AS_PINRESET
 SYMBOLS += DEBUG_NRF
+SYMBOLS += NRF_LOG_USES_RTT=1
 SYMBOLS += FREERTOS
 SYMBOLS += NRF52
 SYMBOLS += NRF52_PAN_12
@@ -59,7 +60,7 @@ INCLUDE_DIRS += $(SDK_ROOT)/external/freertos/source/include
 INCLUDE_DIRS += $(SDK_ROOT)/external/segger_rtt
 
 # External libraries
-# INCLUDE_DIRS += $(LIBS_DIR)
+INCLUDE_DIRS += $(LIBS_DIR)
 
 # Application
 INCLUDE_DIRS += src/config
@@ -102,7 +103,7 @@ SOURCE_FILES += $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT.c
 SOURCE_FILES += $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_printf.c
 
 # Add whole xXx library sources
-# SOURCE_FILES += $(shell find ../libs/xXx -iregex ".*\.\(c\|cpp\|s\)")
+SOURCE_FILES += $(LIBS_DIR)/xXx/utils/logging.cpp
 
 # Add all supported source files found in project folder
 SOURCE_FILES += $(shell find -iregex ".*\.\(c\|cpp\|s\)")
@@ -139,3 +140,6 @@ LDFLAGS += -T $(realpath $(LINKER_SCRIPT))
 TOOLCHAIN_PREFIX = arm-none-eabi-
 
 include ../libs/xXx/utils/rules.mk
+
+download: $(EXECUTABLE)
+	$(TOOLCHAIN_PREFIX)gdb -q -x download.gdb $<

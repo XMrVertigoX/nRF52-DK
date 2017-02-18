@@ -21,6 +21,8 @@
 #include "task.h"
 #include "timers.h"
 
+#include <xXx/utils/logging.hpp>
+
 #if LEDS_NUMBER <= 2
 #error "Board is not equipped with enough amount of LEDs"
 #endif
