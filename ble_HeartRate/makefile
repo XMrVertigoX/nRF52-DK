@@ -6,7 +6,7 @@ PROJECT_NAME = ble_HeartRate
 
 # Directories
 LIBS_DIR = ../libs
-SDK_ROOT = ../libs/nRF5_SDK_12.2.0
+SDK_ROOT = ../libs/nRF5_SDK_12.2.0_f012efa
 
 #  Files
 LINKER_SCRIPT = ble_app_hrs_freertos_gcc_nrf52.ld
