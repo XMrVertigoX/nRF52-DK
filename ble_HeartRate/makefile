@@ -262,6 +262,9 @@ TOOLCHAIN_PREFIX = arm-none-eabi-
 
 include ../libs/xXx/utils/rules.mk
 
+erase:
+	nrfjprog --eraseall -f nrf52
+
 flash_application: $(HEXARY)
 	nrfjprog --program $< -f nrf52 --sectorerase
 	nrfjprog --reset -f nrf52
@@ -269,6 +272,3 @@ flash_application: $(HEXARY)
 flash_softdevice:
 	nrfjprog --program $(SOFT_DEVICE) -f nrf52 --sectorerase
 	nrfjprog --reset -f nrf52
-
-erase:
-	nrfjprog --eraseall -f nrf52
