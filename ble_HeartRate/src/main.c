@@ -24,6 +24,8 @@
 #include <stdint.h>
 #include <string.h>
 
+// #include <xXx/utils/logging.hpp>
+
 #include "FreeRTOS.h"
 #include "app_error.h"
 #include "app_timer.h"
@@ -689,12 +691,12 @@ static void on_ble_evt(ble_evt_t *p_ble_evt) {
             err_code = bsp_indication_set(BSP_INDICATE_CONNECTED);
             APP_ERROR_CHECK(err_code);
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
-            break; // BLE_GAP_EVT_CONNECTED
+            break;  // BLE_GAP_EVT_CONNECTED
 
         case BLE_GAP_EVT_DISCONNECTED:
             NRF_LOG_INFO("Disconnected\r\n");
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
-            break; // BLE_GAP_EVT_DISCONNECTED
+            break;  // BLE_GAP_EVT_DISCONNECTED
 
         case BLE_GATTC_EVT_TIMEOUT:
             // Disconnect on GATT Client timeout event.
@@ -702,7 +704,7 @@ static void on_ble_evt(ble_evt_t *p_ble_evt) {
             err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gattc_evt.conn_handle,
                                              BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
             APP_ERROR_CHECK(err_code);
-            break; // BLE_GATTC_EVT_TIMEOUT
+            break;  // BLE_GATTC_EVT_TIMEOUT
 
         case BLE_GATTS_EVT_TIMEOUT:
             // Disconnect on GATT Server timeout event.
@@ -710,12 +712,12 @@ static void on_ble_evt(ble_evt_t *p_ble_evt) {
             err_code = sd_ble_gap_disconnect(p_ble_evt->evt.gatts_evt.conn_handle,
                                              BLE_HCI_REMOTE_USER_TERMINATED_CONNECTION);
             APP_ERROR_CHECK(err_code);
-            break; // BLE_GATTS_EVT_TIMEOUT
+            break;  // BLE_GATTS_EVT_TIMEOUT
 
         case BLE_EVT_USER_MEM_REQUEST:
             err_code = sd_ble_user_mem_reply(m_conn_handle, NULL);
             APP_ERROR_CHECK(err_code);
-            break; // BLE_EVT_USER_MEM_REQUEST
+            break;  // BLE_EVT_USER_MEM_REQUEST
 
         case BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST: {
             ble_gatts_evt_rw_authorize_request_t req;
@@ -738,14 +740,14 @@ static void on_ble_evt(ble_evt_t *p_ble_evt) {
                     APP_ERROR_CHECK(err_code);
                 }
             }
-        } break; // BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST
+        } break;  // BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST
 
 #if (NRF_SD_BLE_API_VERSION == 3)
         case BLE_GATTS_EVT_EXCHANGE_MTU_REQUEST:
             err_code = sd_ble_gatts_exchange_mtu_reply(p_ble_evt->evt.gatts_evt.conn_handle,
                                                        NRF_BLE_MAX_MTU_SIZE);
             APP_ERROR_CHECK(err_code);
-            break; // BLE_GATTS_EVT_EXCHANGE_MTU_REQUEST
+            break;  // BLE_GATTS_EVT_EXCHANGE_MTU_REQUEST
 #endif
 
         default:
@@ -1025,10 +1027,10 @@ static void logger_thread(void *arg) {
     while (1) {
         NRF_LOG_FLUSH();
 
-        vTaskSuspend(NULL); // Suspend myself
+        vTaskSuspend(NULL);  // Suspend myself
     }
 }
-#endif //NRF_LOG_ENABLED
+#endif  //NRF_LOG_ENABLED
 
 /**@brief A function which is hooked to idle task.
  * @note Idle hook must be enabled in FreeRTOS configuration (configUSE_IDLE_HOOK).
@@ -1064,10 +1066,12 @@ int main(void) {
     if (pdPASS != xTaskCreate(logger_thread, "LOGGER", 256, NULL, 1, &m_logger_thread)) {
         APP_ERROR_HANDLER(NRF_ERROR_NO_MEM);
     }
-#endif //NRF_LOG_ENABLED
+#endif  //NRF_LOG_ENABLED
 
     /* Activate deep sleep mode */
     SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+
+    // LOG("Enter scheduler");
 
     vTaskStartScheduler();
 

@@ -5,8 +5,8 @@ PROJECT_NAME = ble_HeartRate
 # ----- Directories and files -------------------------------------------------
 
 # Directories
-LIBS_DIR = ../libs
-SDK_ROOT = ../libs/nRF5_SDK_12.2.0_f012efa
+LIBS = ../libs
+SDK_ROOT = $(LIBS)/nRF5_SDK_12.2.0_f012efa
 
 #  Files
 LINKER_SCRIPT = ble_app_hrs_freertos_gcc_nrf52.ld
@@ -39,7 +39,7 @@ SYMBOLS += SOFTDEVICE_PRESENT
 SYMBOLS += DEBUG_NRF
 SYMBOLS += NRF_LOG_ENABLED=1
 SYMBOLS += NRF_LOG_USES_RTT=1
-# SYMBOLS += ARM_MATH_CM4
+SYMBOLS += ARM_MATH_CM4
 # SYMBOLS += NDEBUG
 
 # ----- Include directories ---------------------------------------------------
@@ -153,7 +153,7 @@ INCLUDE_DIRS += $(SDK_ROOT)/external/freertos/source/include
 INCLUDE_DIRS += $(SDK_ROOT)/external/segger_rtt
 
 # External libraries
-INCLUDE_DIRS += $(LIBS_DIR)
+INCLUDE_DIRS += $(LIBS)
 
 # Application
 INCLUDE_DIRS += src/config
@@ -224,7 +224,7 @@ SOURCE_FILES += $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT.c
 SOURCE_FILES += $(SDK_ROOT)/external/segger_rtt/SEGGER_RTT_printf.c
 
 # Add whole xXx library sources
-SOURCE_FILES += $(LIBS_DIR)/xXx/utils/logging.cpp
+SOURCE_FILES += $(wildcard $(LIBS)/xXx/utils/*.cpp)
 
 # Add all supported source files found in project folder
 SOURCE_FILES += $(shell find -iregex ".*\.\(c\|cpp\|s\)")
@@ -232,7 +232,9 @@ SOURCE_FILES += $(shell find -iregex ".*\.\(c\|cpp\|s\)")
 # ----- Libraries -------------------------------------------------------------
 
 LIBRARY_DIRS += $(SDK_ROOT)/components/toolchain/gcc
-# LIBRARIES += arm_cortexM4lf_math
+LIBRARY_DIRS += $(SDK_ROOT)/components/toolchain/cmsis/dsp/GCC
+
+LIBRARIES += arm_cortexM4lf_math
 
 # ----- Flags -----------------------------------------------------------------
 
@@ -248,7 +250,6 @@ CPPFLAGS +=
 
 COMMON_CFLAGS += -g
 COMMON_CFLAGS += -Og
-COMMON_CFLAGS += --short-enums
 
 CFLAGS += -std=gnu11
 
