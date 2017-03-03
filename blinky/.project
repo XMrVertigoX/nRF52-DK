@@ -28,9 +28,65 @@
 		<link>
 			<name>libs</name>
 			<type>2</type>
-			<locationURI>copy_PARENT/libs</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/libs</locationURI>
 		</link>
 	</linkedResources>
+	<filteredResources>
+		<filter>
+			<id>1488578516813</id>
+			<name>libs</name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-*</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1488578505546</id>
+			<name>libs/nRF5_SDK_12.2.0_f012efa</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-true-false-components</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1488578505618</id>
+			<name>libs/nRF5_SDK_12.2.0_f012efa</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-true-false-external</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1488578505662</id>
+			<name>libs/nRF5_SDK_12.2.0_f012efa</name>
+			<type>6</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-*</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1488578868360</id>
+			<name>libs/nRF5_SDK_12.2.0_f012efa/external</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-true-false-freertos</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1488578868376</id>
+			<name>libs/nRF5_SDK_12.2.0_f012efa/external</name>
+			<type>9</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-true-false-segger_rtt</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 	<variableList>
 		<variable>
 			<name>copy_PARENT</name>
