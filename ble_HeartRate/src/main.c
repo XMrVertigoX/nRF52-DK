@@ -1,30 +1,5 @@
-/* Copyright (c) 2014 Nordic Semiconductor. All Rights Reserved.
- *
- * The information contained herein is property of Nordic Semiconductor ASA.
- * Terms and conditions of usage are described in detail in NORDIC
- * SEMICONDUCTOR STANDARD SOFTWARE LICENSE AGREEMENT.
- *
- * Licensees are granted free, non-transferable use of the information. NO
- * WARRANTY of ANY KIND is provided. This heading must NOT be removed from
- * the file.
- *
- */
-
-// Board/nrf6310/ble/ble_app_hrs_rtx/main.c
-
-/**
- *
- * @brief Heart Rate Service Sample Application with RTX main file.
- *
- * This file contains the source code for a sample application using RTX and the
- * Heart Rate service (and also Battery and Device Information services).
- * This application uses the @ref srvlib_conn_params module.
- */
-
 #include <stdint.h>
 #include <string.h>
-
-// #include <xXx/utils/logging.hpp>
 
 #include "FreeRTOS.h"
 #include "app_error.h"
