@@ -6,7 +6,7 @@ PROJECT_NAME = blinky
 
 # Directories
 LIBS_DIR = ../libs
-SDK_ROOT = ../libs/nRF5_SDK_12.2.0
+SDK_ROOT = $(LIBS_DIR)/nRF5_SDK_12.2.0_f012efa
 
 #  Files
 LINKER_SCRIPT = blinky_FreeRTOS_gcc_nrf52.ld
