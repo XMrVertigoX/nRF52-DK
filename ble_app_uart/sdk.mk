@@ -1,3 +1,5 @@
+SDK_ROOT = ../libs/nRF5_SDK_12.2.0_f012efa
+
 SYMBOLS += NRF52
 SYMBOLS += NRF52_PAN_64
 SYMBOLS += SOFTDEVICE_PRESENT
@@ -153,3 +155,8 @@ SOURCE_FILES += $(SDK_ROOT)/components/toolchain/gcc/gcc_startup_nrf52.S
 SOURCE_FILES += $(SDK_ROOT)/components/toolchain/system_nrf52.c
 SOURCE_FILES += $(SDK_ROOT)/components/ble/ble_services/ble_nus/ble_nus.c
 SOURCE_FILES += $(SDK_ROOT)/components/softdevice/common/softdevice_handler/softdevice_handler.c
+
+LIBRARY_DIRS += $(SDK_ROOT)/components/toolchain/gcc
+LIBRARY_DIRS += $(SDK_ROOT)/components/toolchain/cmsis/dsp/GCC
+
+SOFT_DEVICE   = $(SDK_ROOT)/components/softdevice/s132/hex/s132_nrf52_3.0.0_softdevice.hex

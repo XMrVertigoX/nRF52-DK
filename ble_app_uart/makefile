@@ -4,16 +4,11 @@ PROJECT_NAME = ble_app_uart
 
 # ----- Directories and files -------------------------------------------------
 
-# Directories
-SDK_ROOT = ../libs/nRF5_SDK_12.2.0_f012efa
-
-#  Files
 LINKER_SCRIPT = ble_app_uart_gcc_nrf52.ld
-SOFT_DEVICE   = $(SDK_ROOT)/components/softdevice/s132/hex/s132_nrf52_3.0.0_softdevice.hex
 
 # ----- Symbols ---------------------------------------------------------------
 
-SYMBOLS +=
+# SYMBOLS += NDEBUG
 
 # ----- Include directories ---------------------------------------------------
 
@@ -26,8 +21,7 @@ SOURCE_FILES += $(shell find -iregex ".*\.\(c\|cpp\|s\)")
 
 # ----- Libraries -------------------------------------------------------------
 
-LIBRARY_DIRS += $(SDK_ROOT)/components/toolchain/gcc
-LIBRARY_DIRS += $(SDK_ROOT)/components/toolchain/cmsis/dsp/GCC
+LIBRARY_DIRS +=
 
 LIBRARIES += arm_cortexM4lf_math
 
