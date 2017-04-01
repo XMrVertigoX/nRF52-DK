@@ -109,8 +109,9 @@
 									<listOptionValue builtIn="false" value="NRF52_PAN_58"/>
 									<listOptionValue builtIn="false" value="NRF52_PAN_64"/>
 									<listOptionValue builtIn="false" value="NRF52_PAN_74"/>
+									<listOptionValue builtIn="false" value="USE_APP_CONFIG"/>
 								</option>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.38345492" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.38345492" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src/config&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/boards&quot;"/>
@@ -130,6 +131,7 @@
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/toolchain/cmsis/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/toolchain/gcc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/external/segger_rtt&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/config&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.1739772412" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -152,8 +154,9 @@
 									<listOptionValue builtIn="false" value="NRF52_PAN_58"/>
 									<listOptionValue builtIn="false" value="NRF52_PAN_64"/>
 									<listOptionValue builtIn="false" value="NRF52_PAN_74"/>
+									<listOptionValue builtIn="false" value="USE_APP_CONFIG"/>
 								</option>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.1363142233" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" valueType="includePath">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.1363142233" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src/config&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/boards&quot;"/>
@@ -173,6 +176,7 @@
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/toolchain/cmsis/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/toolchain/gcc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/external/segger_rtt&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/config&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1540344395" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -195,8 +199,9 @@
 									<listOptionValue builtIn="false" value="NRF52_PAN_58"/>
 									<listOptionValue builtIn="false" value="NRF52_PAN_64"/>
 									<listOptionValue builtIn="false" value="NRF52_PAN_74"/>
+									<listOptionValue builtIn="false" value="USE_APP_CONFIG"/>
 								</option>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths.2080339167" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths" valueType="includePath">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths.2080339167" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src/config&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/boards&quot;"/>
@@ -216,6 +221,7 @@
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/toolchain/cmsis/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/components/toolchain/gcc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/external/segger_rtt&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_ROOT}/config&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.1608557473" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input"/>
 							</tool>

@@ -29,6 +29,8 @@ SYMBOLS += NRF52_PAN_64
 SYMBOLS += NRF52_PAN_74
 SYMBOLS += NRF52832_XXAA
 
+SYMBOLS += USE_APP_CONFIG
+
 # ----- Include directories ---------------------------------------------------
 
 INCLUDE_DIRS += $(SDK_ROOT)/components
@@ -48,6 +50,7 @@ INCLUDE_DIRS += $(SDK_ROOT)/components/proprietary_rf/esb
 INCLUDE_DIRS += $(SDK_ROOT)/components/toolchain
 INCLUDE_DIRS += $(SDK_ROOT)/components/toolchain/cmsis/include
 INCLUDE_DIRS += $(SDK_ROOT)/components/toolchain/gcc
+INCLUDE_DIRS += $(SDK_ROOT)/config
 INCLUDE_DIRS += $(SDK_ROOT)/external/segger_rtt
 
 # External libraries

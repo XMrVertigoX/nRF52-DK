@@ -51,7 +51,8 @@
 #include "nrf_gpio.h"
 #include "sdk_common.h"
 
-#define NRF_LOG_MODULE_NAME "APP"
+#define NRF_LOG_MODULE_NAME "TRANSMITTER"
+
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 
@@ -67,8 +68,8 @@ void nrf_esb_event_handler(nrf_esb_evt_t const* p_event) {
         } break;
         case NRF_ESB_EVENT_TX_FAILED: {
             NRF_LOG_DEBUG("TX FAILED EVENT\r\n");
-            (void)nrf_esb_flush_tx();
-            (void)nrf_esb_start_tx();
+            nrf_esb_flush_tx();
+            nrf_esb_start_tx();
         } break;
         case NRF_ESB_EVENT_RX_RECEIVED: {
             NRF_LOG_DEBUG("RX RECEIVED EVENT\r\n");
@@ -88,7 +89,6 @@ void clocks_start(void) {
     NRF_CLOCK->EVENTS_HFCLKSTARTED = 0;
     NRF_CLOCK->TASKS_HFCLKSTART    = 1;
 
-    // while (NRF_CLOCK->EVENTS_HFCLKSTARTED == 0);
     WAIT_UNTIL(NRF_CLOCK->EVENTS_HFCLKSTARTED);
 }
 
@@ -124,7 +124,7 @@ uint32_t esb_init(void) {
     err_code = nrf_esb_set_prefixes(addr_prefix, 8);
     VERIFY_SUCCESS(err_code);
 
-    return err_code;
+    return (err_code);
 }
 
 int main(void) {
@@ -147,7 +147,7 @@ int main(void) {
     tx_payload.length = 8;
     memcpy(tx_payload.data, payload, tx_payload.length);
 
-    NRF_LOG_DEBUG("Enhanced ShockBurst Transmitter Example running.\r\n");
+    NRF_LOG_INFO("Enhanced ShockBurst Transmitter Example running.\r\n");
 
     while (true) {
         NRF_LOG_DEBUG("Transmitting packet %02x\r\n", tx_payload.data[1]);
@@ -163,7 +163,7 @@ int main(void) {
             NRF_LOG_WARNING("Sending packet failed\r\n");
         }
 
-        nrf_delay_us(50000);
+        nrf_delay_ms(50);
     }
 }
 /*lint -restore */

@@ -10,7 +10,8 @@
 #include "nrf_gpio.h"
 #include "sdk_common.h"
 
-#define NRF_LOG_MODULE_NAME "APP"
+#define NRF_LOG_MODULE_NAME "RECEIVER"
+
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 
