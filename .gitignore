@@ -1,6 +1,2 @@
 # Ignore compiler/linker output
 **/_out
-
-# Ignore all non-compressed files in libs
-libs/*
-!libs/*.zip
