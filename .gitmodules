@@ -1,3 +1,6 @@
 [submodule "libs/xXx"]
 	path = libs/xXx
 	url = https://github.com/XMrVertigoX/xXx_CPP.git
+[submodule "libs/nRF5_SDK"]
+	path = libs/nRF5_SDK
+	url = git@github.com:XMrVertigoX/nRF5_SDK.git
