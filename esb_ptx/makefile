@@ -5,7 +5,7 @@ PROJECT_NAME = esb_ptx
 # ----- Directories and files -------------------------------------------------
 
 LIBS = ../libs
-SDK_ROOT = ../libs/nRF5_SDK_13.0.0_04a0bfd
+SDK_ROOT = ../libs/nRF5_SDK
 
 LINKER_SCRIPT = esb_ptx_gcc_nrf52.ld
 

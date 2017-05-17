@@ -24,7 +24,6 @@ void nrf_esb_event_handler(nrf_esb_evt_t const* p_event) {
         case NRF_ESB_EVENT_RX_RECEIVED:
             NRF_LOG_DEBUG("RX RECEIVED EVENT\r\n");
             if (nrf_esb_read_rx_payload(&rx_payload) == NRF_SUCCESS) {
-                // Set LEDs identical to the ones on the PTX.
                 nrf_gpio_pin_write(LED_1,
                                    !(rx_payload.data[1] % 8 > 0 && rx_payload.data[1] % 8 <= 4));
                 nrf_gpio_pin_write(LED_2,
@@ -76,7 +75,7 @@ uint32_t esb_init(void) {
     err_code = nrf_esb_set_prefixes(addr_prefix, 8);
     VERIFY_SUCCESS(err_code);
 
-    return err_code;
+    return (err_code);
 }
 
 int main(void) {

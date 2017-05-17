@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.461489720/SDK_ROOT/delimiter=;
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.461489720/SDK_ROOT/operation=append
-environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.461489720/SDK_ROOT/value=${ProjDirPath}/../libs/nRF5_SDK_13.0.0_04a0bfd
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.461489720/SDK_ROOT/operation=replace
+environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.461489720/SDK_ROOT/value=${ProjDirPath}/../libs/nRF5_SDK
 environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.461489720/append=true
 environment/project/ilg.gnuarmeclipse.managedbuild.cross.toolchain.base.461489720/appendContributed=true

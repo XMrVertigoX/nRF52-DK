@@ -5,7 +5,7 @@ PROJECT_NAME = esb_prx
 # ----- Directories and files -------------------------------------------------
 
 LIBS = ../libs
-SDK_ROOT = $(LIBS)/nRF5_SDK_13.0.0_04a0bfd
+SDK_ROOT = $(LIBS)/nRF5_SDK
 
 LINKER_SCRIPT = esb_prx_gcc_nrf52.ld
 

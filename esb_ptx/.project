@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>nRF52_esb_prx</name>
+	<name>(nRF52-DK) esb_ptx</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -28,7 +28,13 @@
 		<link>
 			<name>libs</name>
 			<type>2</type>
-			<locationURI>PARENT-1-PROJECT_LOC/libs</locationURI>
+			<locationURI>copy_PARENT/libs</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>copy_PARENT</name>
+			<value>$%7BPARENT-3-ECLIPSE_HOME%7D/Projects/nRF52-DK</value>
+		</variable>
+	</variableList>
 </projectDescription>
