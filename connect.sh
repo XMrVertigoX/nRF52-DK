@@ -1,1 +1,1 @@
-JLinkGDBServer -device nrf52 -if swd -speed auto -nogui -xc connect.gdb
+JLinkGDBServer -device nrf52 -if swd -speed 12000 -nogui -xc connect.gdb
