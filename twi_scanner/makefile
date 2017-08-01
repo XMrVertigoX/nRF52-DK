@@ -111,14 +111,3 @@ include ../libs/xXx/utils/rules.mk
 
 download: $(EXECUTABLE)
 	$(TOOLCHAIN_PREFIX)gdb -q -x download.gdb $<
-
-# erase:
-# 	nrfjprog -f nrf52 --eraseall
-#
-# flash_application: $(HEXARY)
-# 	nrfjprog -f nrf52 --sectorerase --program $<
-# 	nrfjprog -f nrf52 --reset
-#
-# flash_softdevice:
-# 	nrfjprog -f nrf52 --sectorerase --program $(SOFT_DEVICE)
-# 	nrfjprog -f nrf52 --reset
